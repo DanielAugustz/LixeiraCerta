@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Dados locais de quem joga (não vão para o repositório)
+metricas/
+save/
+
+# Build do executável (PyInstaller)
+build/
+dist/
+*.spec
