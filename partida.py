@@ -7,7 +7,7 @@ import pygame
 from cartas import aplicar_carta, sortear_oferta, CUSTOS
 from config import (LARGURA, Y_CHAO, TAMANHO_RESIDUO, DURACAO_ONDA, ONDAS_POR_FASE,
                     VIDAS_INICIAIS, VIDAS_MAX, VIDA_BONUS_FASE, PONTOS_ACERTO, BONUS_COMBO,
-                    COMBO_MAX, PENALIDADE_CHAO, BALANCO_VENTO, FATOR_INTERVALO_CHUVA, FATOR_LIXEIRA_LENTA, FATOR_QUEDA_RAPIDA,
+                    COMBO_MAX, PENALIDADE_CHAO, BALANCO_VENTO, VEL_QUEDA_CAMPANHA, VEL_QUEDA_CAMPANHA_FIM, FATOR_INTERVALO_CHUVA, FATOR_LIXEIRA_LENTA, FATOR_QUEDA_RAPIDA,
                     DANO_ERRO_DOBRADO, DURACAO_MENSAGEM, DURACAO_TEXTO_FLUTUANTE, VERDE_OK, VERMELHO_ERRO,
                     AMARELO_DESTAQUE, AZUL_INFO)
 from eventos import EVENTOS, sortear_evento, aplicar_evento
@@ -102,9 +102,10 @@ class Partida:
 
         tipos, pesos = tipos_da_fase(self.fase["numero"])
         self.tipos, self.pesos = aplicar_evento(tipos, pesos, self.evento)
-        # Velocidade e intervalo fixos na campanha; só as cartas mudam (abaixo e "Câmera lenta").
+        # Velocidade no início da onda (85 px/s) e intervalo fixo; as cartas mudam por cima.
         self.vel_base = velocidade_queda() * self.mod_velocidade
         self.intervalo_base = intervalo_surgimento()
+        self.vel_lixeira_base = self.lixeira.velocidade   # a lixeira acelera junto (ver atualizar)
 
         # Custo da carta escolhida antes desta onda (vale só nesta onda)
         self.mostrar_nomes = self.custo != "sem_rotulo"
@@ -138,10 +139,15 @@ class Partida:
                 self.sons.tocar("troca")
 
     # ------------------------------------------------------------ lógica
+    def _fator_aceleracao(self):
+        """1,0 no início da onda até 120/85 (≈1,41) no fim: a queda vai de 85 a 120 px/s."""
+        progresso = min(self.tempo / DURACAO_ONDA, 1.0)
+        return 1 + (VEL_QUEDA_CAMPANHA_FIM / VEL_QUEDA_CAMPANHA - 1) * progresso
+
     # Os três métodos abaixo são sobrescritos pelo modo infinito.
     def _velocidade_atual(self):
-        """Campanha: a velocidade não sobe sozinha durante a onda."""
-        return self.vel_base
+        """Campanha: acelera de 85 a 120 px/s ao longo da onda (vezes os efeitos das cartas)."""
+        return self.vel_base * self._fator_aceleracao()
 
     def _intervalo_atual(self):
         return self.intervalo_base
@@ -201,6 +207,8 @@ class Partida:
         self.sons.tocar("chao")
 
     def atualizar(self, dt, teclas):
+        # A lixeira acelera na mesma proporção que os resíduos (sempre dá para alcançar).
+        self.lixeira.velocidade = self.vel_lixeira_base * self._fator_aceleracao()
         self._atualizar_jogo(dt, teclas)
         self._verificar_fim()
 

@@ -48,7 +48,8 @@ FASES = [
 
 
 def velocidade_queda():
-    """Velocidade de queda na campanha: fixa. Só as cartas mudam (Queda rápida, Câmera lenta)."""
+    """Velocidade de queda no INÍCIO de cada onda da campanha (85 px/s). Ao longo da onda ela
+    sobe até 120 px/s (Partida._fator_aceleracao); as cartas multiplicam por cima."""
     return VEL_QUEDA_CAMPANHA
 
 

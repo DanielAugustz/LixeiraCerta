@@ -145,8 +145,8 @@ def desenhar_intro_fase(tela, fontes, partida):
     texto(tela, fontes["grande"], fase["nome"], BRANCO, center=(LARGURA // 2, 135))
     for i, linha in enumerate(fase["novidades"]):
         texto(tela, fontes["media"], linha, BRANCO, center=(LARGURA // 2, 195 + i * 36))
-    texto(tela, fontes["pequena_n"], f"{ONDAS_POR_FASE} ondas de {DURACAO_ONDA} s. Os resíduos só caem mais rápido "
-          "se você escolher a carta com o custo \"Queda rápida\".", AZUL_INFO, center=(LARGURA // 2, 292))
+    texto(tela, fontes["pequena_n"], f"{ONDAS_POR_FASE} ondas de {DURACAO_ONDA} s. Em cada onda os resíduos aceleram "
+          "aos poucos, e a sua lixeira acelera junto.", AZUL_INFO, center=(LARGURA // 2, 292))
     texto(tela, fontes["pequena"], f"Vidas: {partida.vidas}   •   Pontos: {partida.pontos}", BRANCO,
           center=(LARGURA // 2, 325))
     if partida.cartas:

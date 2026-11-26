@@ -79,7 +79,7 @@ O executável fica na pasta `dist`. As métricas da versão .exe são salvas em 
   | 3. Orla da lagoa | 4 | + Metal (R) |
   | 4. Feira livre | 5 | + Orgânico (T) |
 
-- **Velocidade fixa:** os resíduos caem a 85 px/s e surgem a cada 1,7 s a campanha toda. Eles só ficam mais rápidos com o custo da carta "Queda rápida" (+20% na onda seguinte), mais frequentes com o custo "Chuva de lixo" e mais lentos com a vantagem "Câmera lenta". A dificuldade dos cenários vem das lixeiras novas e dos itens que confundem.
+- **Velocidade em cada onda:** os resíduos começam caindo a 85 px/s e aceleram aos poucos até 120 px/s no fim dos 30 s; **a lixeira acelera na mesma proporção** (480 → cerca de 677 px/s), para sempre dar tempo de alcançar. A onda seguinte recomeça em 85. Os resíduos surgem a cada 1,7 s. As cartas agem por cima: o custo "Queda rápida" (x1,2) e "Chuva de lixo" (dobro de resíduos) valem na onda seguinte, e a vantagem "Câmera lenta" freia a queda.
 - Começa com 5 vidas e ganha +1 ao chegar num cenário novo (máximo 7).
 - Perdeu todas as vidas: a run acaba e começa do zero. Venceu a onda 8: vitória.
 
@@ -194,7 +194,7 @@ comparar os erros por minuto ao longo do tempo.
 | Resíduo na lixeira errada tira 1 vida e explica o motivo | `lixeira.py` · `Lixeira.receber()`, `partida.py` · `Partida._errou()` | Implementado |
 | Resíduo no chão tira 5 pts e suja o cenário | `partida.py` · `Partida._caiu_no_chao()`, `config.py` · `PENALIDADE_CHAO` | Implementado |
 | Run de 8 ondas de 30 s em 4 cenários (2 por cenário) | `config.py` · `DURACAO_ONDA`, `ONDAS_POR_FASE`, `partida.py` · `TOTAL_ONDAS` | Implementado |
-| Campanha: velocidade (85 px/s) e intervalo (1,7 s) fixos; só as cartas mudam | `config.py` · `VEL_QUEDA_CAMPANHA`, `INTERVALO_CAMPANHA`, `fases.py` · `velocidade_queda()`, `partida.py` · `Partida.iniciar_onda()`, `_velocidade_atual()` | Implementado |
+| Campanha: em cada onda a queda vai de 85 a 120 px/s e a lixeira acelera na mesma proporção | `config.py` · `VEL_QUEDA_CAMPANHA`, `VEL_QUEDA_CAMPANHA_FIM`, `partida.py` · `Partida._fator_aceleracao()`, `_velocidade_atual()`, `atualizar()` | Implementado |
 | Uma lixeira nova por cenário (2 → 3 → 4 → 5) | `fases.py` · `FASES[...]["categorias"]` | Implementado |
 | Material novo aparece com mais frequência | `config.py` · `PESO_MATERIAL_NOVO`, `fases.py` · `tipos_da_fase()` | Implementado |
 | Escolha de 1 entre 3 cartas; vantagem vale a run toda | `cartas.py` · `sortear_oferta()`, `aplicar_carta()`, `partida.py` · `Partida.escolher_carta()` | Implementado |

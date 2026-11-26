@@ -28,12 +28,13 @@ ONDAS_POR_FASE = 2       # ondas em cada cenário
 
 # ---------------- Resíduos e dificuldade ----------------
 TAMANHO_RESIDUO = 44
-# Campanha: a velocidade e a quantidade de resíduos são FIXAS. Elas só mudam com as
-# cartas: o custo "Queda rápida" acelera e "Chuva de lixo" dobra os resíduos (na onda
-# seguinte); a vantagem "Câmera lenta" deixa mais devagar. A dificuldade dos cenários
-# vem das lixeiras novas e dos itens que confundem.
-VEL_QUEDA_CAMPANHA = 85              # px/s, a campanha toda
-INTERVALO_CAMPANHA = 1.7             # segundos entre resíduos, a campanha toda
+# Campanha: em CADA onda a queda começa em 85 px/s e acelera aos poucos até 120 px/s
+# no fim dos 30 s; a lixeira acelera na mesma proporção, para sempre dar tempo de
+# alcançar. A onda seguinte recomeça em 85. As cartas agem por cima disso: o custo
+# "Queda rápida" (x1,2) e "Chuva de lixo" valem na onda seguinte; "Câmera lenta" freia.
+VEL_QUEDA_CAMPANHA = 85              # px/s no início de cada onda
+VEL_QUEDA_CAMPANHA_FIM = 120         # px/s no fim de cada onda
+INTERVALO_CAMPANHA = 1.7             # segundos entre resíduos (fixo)
 VEL_QUEDA_INFINITO = 110             # px/s no início do modo infinito (antes da dificuldade)
 PESO_MATERIAL_NOVO = 3               # material novo do cenário aparece 3x mais
 
