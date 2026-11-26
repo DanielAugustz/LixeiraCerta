@@ -23,19 +23,18 @@ VEL_LIXEIRA = 480        # pixels por segundo
 
 # ---------------- Estrutura da run (roguelike) ----------------
 DURACAO_ONDA = 30        # segundos por onda
-ONDAS_POR_FASE = 3       # ondas em cada cenário
-# total de ondas = ONDAS_POR_FASE x número de cenários (4) = 12
+ONDAS_POR_FASE = 2       # ondas em cada cenário
+# total de ondas = ONDAS_POR_FASE x número de cenários (4) = 8
 
 # ---------------- Resíduos e dificuldade ----------------
 TAMANHO_RESIDUO = 44
-VEL_QUEDA_BASE = 110                 # px/s na 1ª onda de CADA cenário (começa devagar)
-# Campanha: a velocidade REINICIA a cada cenário novo (a 1ª onda é a introdução da
-# lixeira nova) e sobe só nas ondas seguintes do mesmo cenário.
-ACELERACAO_ONDA = 0.15               # +15% de velocidade a cada onda dentro do cenário
-RAMPA_DENTRO_ONDA = 0.15             # até +15% de velocidade ao longo de uma onda
-INTERVALO_BASE = 1.7                 # segundos entre resíduos na 1ª onda de cada cenário
-REDUCAO_INTERVALO_ONDA = 0.10        # -10% no intervalo a cada onda dentro do cenário
-REDUCAO_INTERVALO_DENTRO_ONDA = 0.20 # até -20% no intervalo ao longo da onda
+# Campanha: a velocidade e a quantidade de resíduos são FIXAS. Elas só mudam com as
+# cartas: o custo "Queda rápida" acelera e "Chuva de lixo" dobra os resíduos (na onda
+# seguinte); a vantagem "Câmera lenta" deixa mais devagar. A dificuldade dos cenários
+# vem das lixeiras novas e dos itens que confundem.
+VEL_QUEDA_CAMPANHA = 85              # px/s, a campanha toda
+INTERVALO_CAMPANHA = 1.7             # segundos entre resíduos, a campanha toda
+VEL_QUEDA_INFINITO = 110             # px/s no início do modo infinito (antes da dificuldade)
 PESO_MATERIAL_NOVO = 3               # material novo do cenário aparece 3x mais
 
 # ---------------- Regras ----------------
@@ -81,7 +80,7 @@ DURACAO_TEXTO_FLUTUANTE = 0.9
 # A dificuldade define tudo junto:
 #   lixeiras    = quantas lixeiras (na ordem Papel, Plástico, Vidro, Metal, Orgânico)
 #   vidas       = vidas iniciais
-#   velocidade  = velocidade de queda dos itens (multiplica VEL_QUEDA_BASE)
+#   velocidade  = velocidade de queda dos itens (multiplica VEL_QUEDA_INFINITO)
 #   intervalo   = segundos entre resíduos no começo
 #   acel_etapa  = quanto a queda acelera a cada etapa (a cada SEGUNDOS_POR_ETAPA)
 DIFICULDADES = {

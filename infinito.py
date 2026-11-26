@@ -9,7 +9,7 @@
 """
 
 from cartas import aplicar_carta, sortear_oferta, CUSTOS
-from config import (VEL_QUEDA_BASE, VEL_LIXEIRA, LARGURA, LARGURA_LIXEIRA, BONUS_COMBO, PONTOS_ACERTO,
+from config import (VEL_QUEDA_INFINITO, VEL_LIXEIRA, LARGURA, LARGURA_LIXEIRA, BONUS_COMBO, PONTOS_ACERTO,
                     DIFICULDADES, ACEL_MAX_INFINITO, REDUCAO_INTERVALO_ETAPA, SEGUNDOS_POR_ETAPA,
                     INTERVALO_MIN_MULT, VIDAS_MAX_INFINITO, PONTOS_PRIMEIRA_CARTA, CRESCIMENTO_CARTA,
                     DURACAO_CUSTO_INFINITO, LIMITE_SUJEIRA, BALANCO_VENTO, FATOR_INTERVALO_CHUVA,
@@ -101,7 +101,7 @@ class PartidaInfinita(Partida):
     def _velocidade_atual(self):
         aceleracao = min(ACEL_MAX_INFINITO, 1 + self.acel_etapa * self.etapa)
         rapida = FATOR_QUEDA_RAPIDA if self.custo == "queda_rapida" else 1.0
-        return VEL_QUEDA_BASE * self.mult_vel_itens * self.mod_velocidade * aceleracao * rapida
+        return VEL_QUEDA_INFINITO * self.mult_vel_itens * self.mod_velocidade * aceleracao * rapida
 
     def _intervalo_atual(self):
         reducao = max(INTERVALO_MIN_MULT, 1 - REDUCAO_INTERVALO_ETAPA * self.etapa)

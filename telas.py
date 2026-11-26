@@ -99,7 +99,7 @@ def desenhar_menu(tela, fontes, opcao):
 
 
 OPCOES_MENU = [
-    ("Modo campanha", "4 cenários e 12 ondas: uma lixeira nova a cada cenário."),
+    ("Modo campanha", "4 cenários e 8 ondas: uma lixeira nova a cada cenário."),
     ("Modo infinito", "Sem fim, num mapa só. Escolha a dificuldade e compre upgrades na loja."),
     ("Como jogar", "Controles, regras e cores das lixeiras."),
     ("Sair", "Fechar o jogo."),
@@ -145,8 +145,8 @@ def desenhar_intro_fase(tela, fontes, partida):
     texto(tela, fontes["grande"], fase["nome"], BRANCO, center=(LARGURA // 2, 135))
     for i, linha in enumerate(fase["novidades"]):
         texto(tela, fontes["media"], linha, BRANCO, center=(LARGURA // 2, 195 + i * 36))
-    texto(tela, fontes["pequena_n"], "A 1ª onda do cenário é mais devagar para você conhecer a lixeira nova. "
-          "Depois acelera!", AZUL_INFO, center=(LARGURA // 2, 292))
+    texto(tela, fontes["pequena_n"], f"{ONDAS_POR_FASE} ondas de {DURACAO_ONDA} s. Os resíduos só caem mais rápido "
+          "se você escolher a carta com o custo \"Queda rápida\".", AZUL_INFO, center=(LARGURA // 2, 292))
     texto(tela, fontes["pequena"], f"Vidas: {partida.vidas}   •   Pontos: {partida.pontos}", BRANCO,
           center=(LARGURA // 2, 325))
     if partida.cartas:

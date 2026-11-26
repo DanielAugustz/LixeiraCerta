@@ -61,15 +61,15 @@ O executável fica na pasta `dist`. As métricas da versão .exe são salvas em 
 
 ## Modos de jogo
 
-- **Modo campanha:** 4 cenários e 12 ondas, com uma lixeira nova a cada cenário. Tem fim (vitória
-  na onda 12).
+- **Modo campanha:** 4 cenários e 8 ondas, com uma lixeira nova a cada cenário. Tem fim (vitória
+  na onda 8).
 - **Modo infinito:** sem fim, num mapa só. Você escolhe a dificuldade (que define quantas
   lixeiras, vidas e velocidade), ganha cartas por pontos e compra upgrades na loja.
 
 ## Modo campanha
 
 **Estrutura da run**
-- Uma run tem **12 ondas de 30 segundos** em 4 cenários (3 ondas cada). A cada cenário
+- Uma run tem **8 ondas de 30 segundos** em 4 cenários (2 ondas cada). A cada cenário
   entra **uma lixeira nova**:
 
   | Cenário | Lixeiras | Novidade |
@@ -79,9 +79,9 @@ O executável fica na pasta `dist`. As métricas da versão .exe são salvas em 
   | 3. Orla da lagoa | 4 | + Metal (R) |
   | 4. Feira livre | 5 | + Orgânico (T) |
 
-- **Cada cenário começa devagar:** a 1ª onda é a introdução da lixeira nova. Nas ondas seguintes do mesmo cenário os resíduos caem 15% mais rápido e surgem 10% mais seguido a cada onda. Ao trocar de cenário, a velocidade volta ao início.
+- **Velocidade fixa:** os resíduos caem a 85 px/s e surgem a cada 1,7 s a campanha toda. Eles só ficam mais rápidos com o custo da carta "Queda rápida" (+20% na onda seguinte), mais frequentes com o custo "Chuva de lixo" e mais lentos com a vantagem "Câmera lenta". A dificuldade dos cenários vem das lixeiras novas e dos itens que confundem.
 - Começa com 5 vidas e ganha +1 ao chegar num cenário novo (máximo 7).
-- Perdeu todas as vidas: a run acaba e começa do zero. Venceu a onda 12: vitória.
+- Perdeu todas as vidas: a run acaba e começa do zero. Venceu a onda 8: vitória.
 
 **Separação**
 - Resíduo na lixeira certa: +10 pontos, mais 2 por acerto seguido (combo, limite +20).
@@ -193,8 +193,8 @@ comparar os erros por minuto ao longo do tempo.
 | Resíduo na lixeira certa soma 10 pts + combo | `partida.py` · `Partida._acertou()`, `config.py` · `PONTOS_ACERTO`, `BONUS_COMBO` | Implementado |
 | Resíduo na lixeira errada tira 1 vida e explica o motivo | `lixeira.py` · `Lixeira.receber()`, `partida.py` · `Partida._errou()` | Implementado |
 | Resíduo no chão tira 5 pts e suja o cenário | `partida.py` · `Partida._caiu_no_chao()`, `config.py` · `PENALIDADE_CHAO` | Implementado |
-| Run de 12 ondas de 30 s em 4 cenários | `config.py` · `DURACAO_ONDA`, `ONDAS_POR_FASE`, `partida.py` · `TOTAL_ONDAS` | Implementado |
-| Campanha: cada cenário começa devagar e acelera 15% por onda dentro dele | `config.py` · `ACELERACAO_ONDA`, `fases.py` · `velocidade_queda()`, `partida.py` · `Partida.iniciar_onda()` (`onda_no_cenario`) | Implementado |
+| Run de 8 ondas de 30 s em 4 cenários (2 por cenário) | `config.py` · `DURACAO_ONDA`, `ONDAS_POR_FASE`, `partida.py` · `TOTAL_ONDAS` | Implementado |
+| Campanha: velocidade (85 px/s) e intervalo (1,7 s) fixos; só as cartas mudam | `config.py` · `VEL_QUEDA_CAMPANHA`, `INTERVALO_CAMPANHA`, `fases.py` · `velocidade_queda()`, `partida.py` · `Partida.iniciar_onda()`, `_velocidade_atual()` | Implementado |
 | Uma lixeira nova por cenário (2 → 3 → 4 → 5) | `fases.py` · `FASES[...]["categorias"]` | Implementado |
 | Material novo aparece com mais frequência | `config.py` · `PESO_MATERIAL_NOVO`, `fases.py` · `tipos_da_fase()` | Implementado |
 | Escolha de 1 entre 3 cartas; vantagem vale a run toda | `cartas.py` · `sortear_oferta()`, `aplicar_carta()`, `partida.py` · `Partida.escolher_carta()` | Implementado |

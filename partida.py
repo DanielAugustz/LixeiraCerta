@@ -7,8 +7,7 @@ import pygame
 from cartas import aplicar_carta, sortear_oferta, CUSTOS
 from config import (LARGURA, Y_CHAO, TAMANHO_RESIDUO, DURACAO_ONDA, ONDAS_POR_FASE,
                     VIDAS_INICIAIS, VIDAS_MAX, VIDA_BONUS_FASE, PONTOS_ACERTO, BONUS_COMBO,
-                    COMBO_MAX, PENALIDADE_CHAO, RAMPA_DENTRO_ONDA, REDUCAO_INTERVALO_DENTRO_ONDA,
-                    BALANCO_VENTO, FATOR_INTERVALO_CHUVA, FATOR_LIXEIRA_LENTA, FATOR_QUEDA_RAPIDA,
+                    COMBO_MAX, PENALIDADE_CHAO, BALANCO_VENTO, FATOR_INTERVALO_CHUVA, FATOR_LIXEIRA_LENTA, FATOR_QUEDA_RAPIDA,
                     DANO_ERRO_DOBRADO, DURACAO_MENSAGEM, DURACAO_TEXTO_FLUTUANTE, VERDE_OK, VERMELHO_ERRO,
                     AMARELO_DESTAQUE, AZUL_INFO)
 from eventos import EVENTOS, sortear_evento, aplicar_evento
@@ -103,10 +102,9 @@ class Partida:
 
         tipos, pesos = tipos_da_fase(self.fase["numero"])
         self.tipos, self.pesos = aplicar_evento(tipos, pesos, self.evento)
-        # Reinicia a cada cenário: a 1ª onda de um cenário novo é sempre devagar.
-        onda_no_cenario = self.onda % ONDAS_POR_FASE
-        self.vel_base = velocidade_queda(onda_no_cenario) * self.mod_velocidade
-        self.intervalo_base = intervalo_surgimento(onda_no_cenario)
+        # Velocidade e intervalo fixos na campanha; só as cartas mudam (abaixo e "Câmera lenta").
+        self.vel_base = velocidade_queda() * self.mod_velocidade
+        self.intervalo_base = intervalo_surgimento()
 
         # Custo da carta escolhida antes desta onda (vale só nesta onda)
         self.mostrar_nomes = self.custo != "sem_rotulo"
@@ -140,15 +138,13 @@ class Partida:
                 self.sons.tocar("troca")
 
     # ------------------------------------------------------------ lógica
-    def _progresso(self):
-        return min(self.tempo / DURACAO_ONDA, 1.0)
-
     # Os três métodos abaixo são sobrescritos pelo modo infinito.
     def _velocidade_atual(self):
-        return self.vel_base * (1 + RAMPA_DENTRO_ONDA * self._progresso())
+        """Campanha: a velocidade não sobe sozinha durante a onda."""
+        return self.vel_base
 
     def _intervalo_atual(self):
-        return self.intervalo_base * (1 - REDUCAO_INTERVALO_DENTRO_ONDA * self._progresso())
+        return self.intervalo_base
 
     def _pode_surgir(self):
         """Novos resíduos só surgem enquanto o tempo da onda não acabou."""

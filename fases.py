@@ -1,7 +1,6 @@
-"""Cenários (fases) e fórmulas de dificuldade por onda."""
+"""Cenários (fases), velocidade da campanha e resíduos de cada cenário."""
 
-from config import (VEL_QUEDA_BASE, ACELERACAO_ONDA, INTERVALO_BASE,
-                    REDUCAO_INTERVALO_ONDA, PESO_MATERIAL_NOVO)
+from config import VEL_QUEDA_CAMPANHA, INTERVALO_CAMPANHA, PESO_MATERIAL_NOVO
 from residuo import CATALOGO
 
 FASES = [
@@ -48,15 +47,14 @@ FASES = [
 ]
 
 
-def velocidade_queda(onda_no_cenario):
-    """Velocidade inicial de queda. 'onda_no_cenario' é 0 na 1ª onda de cada cenário:
-    todo cenário começa devagar (introdução da lixeira nova) e acelera nas ondas seguintes."""
-    return VEL_QUEDA_BASE * (1 + ACELERACAO_ONDA * onda_no_cenario)
+def velocidade_queda():
+    """Velocidade de queda na campanha: fixa. Só as cartas mudam (Queda rápida, Câmera lenta)."""
+    return VEL_QUEDA_CAMPANHA
 
 
-def intervalo_surgimento(onda_no_cenario):
-    """Intervalo médio entre resíduos; também reinicia a cada cenário."""
-    return INTERVALO_BASE * (1 - REDUCAO_INTERVALO_ONDA) ** onda_no_cenario
+def intervalo_surgimento():
+    """Intervalo médio entre resíduos na campanha: fixo. Só a carta Chuva de lixo muda."""
+    return INTERVALO_CAMPANHA
 
 
 def tipos_da_fase(numero):
